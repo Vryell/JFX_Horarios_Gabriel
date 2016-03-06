@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.PantallaPrincipalController">
+   <top>
+      <HBox prefHeight="37.0" prefWidth="600.0" BorderPane.alignment="CENTER">
+         <children>
+            <Label text="Usuario:">
+               <HBox.margin>
+                  <Insets bottom="5.0" left="10.0" right="5.0" top="10.0" />
+               </HBox.margin>
+            </Label>
+            <TextField fx:id="usuarioText">
+               <HBox.margin>
+                  <Insets bottom="5.0" right="5.0" top="5.0" />
+               </HBox.margin>
+            </TextField>
+            <Label text="Contraseña: ">
+               <HBox.margin>
+                  <Insets bottom="5.0" right="5.0" top="10.0" />
+               </HBox.margin>
+            </Label>
+            <TextField fx:id="claveText">
+               <HBox.margin>
+                  <Insets bottom="5.0" right="5.0" top="5.0" />
+               </HBox.margin>
+            </TextField>
+            <Button fx:id="conectarButton" mnemonicParsing="false" onAction="#onConectarButtonHandle" text="Conectar">
+               <HBox.margin>
+                  <Insets bottom="5.0" right="5.0" top="5.0" />
+               </HBox.margin>
+            </Button>
+            <Button fx:id="desconectarButton" mnemonicParsing="false" onAction="#onDesconectarButtonHandle" text="Desconectar">
+               <HBox.margin>
+                  <Insets bottom="5.0" right="5.0" top="5.0" />
+               </HBox.margin>
+            </Button>
+         </children>
+      </HBox>
+   </top>
+   <center>
+      <TabPane prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
+        <tabs>
+          <Tab fx:id="jornadasTabPanel" text="Jornadas">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <BorderPane prefHeight="334.0" prefWidth="600.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                           <center>
+                              <TableView fx:id="jornadasTable" prefHeight="308.0" prefWidth="574.0" BorderPane.alignment="CENTER">
+                                <columns>
+                                  <TableColumn fx:id="jornadasFechaColumn" prefWidth="110.0" text="Fecha" />
+                                  <TableColumn fx:id="jornadasCentroColumn" prefWidth="184.0" text="Centro" />
+                                    <TableColumn fx:id="jornadasAreaColumn" prefWidth="191.0" text="Area" />
+                                    <TableColumn fx:id="jornadasTurnoColumn" prefWidth="114.0" text="Turno" />
+                                </columns>
+                              </TableView>
+                           </center>
+                           <bottom>
+                              <HBox alignment="CENTER" prefHeight="45.0" prefWidth="600.0" BorderPane.alignment="CENTER">
+                                 <children>
+                                    <Button fx:id="aniadirJornadaButton" mnemonicParsing="false" onAction="#onAniadirJornadaButtonHandle" text="+">
+                                       <HBox.margin>
+                                          <Insets bottom="5.0" right="10.0" top="5.0" />
+                                       </HBox.margin>
+                                    </Button>
+                                    <Button fx:id="editarJornadaButton" mnemonicParsing="false" onAction="#onEditarJornadaButtonHandle" text="E">
+                                       <HBox.margin>
+                                          <Insets bottom="5.0" top="5.0" />
+                                       </HBox.margin>
+                                    </Button>
+                                    <Button fx:id="eliminarJornadaButton" mnemonicParsing="false" onAction="#onEliminarJornadaButtonHandle" text="-">
+                                       <HBox.margin>
+                                          <Insets bottom="5.0" left="10.0" top="5.0" />
+                                       </HBox.margin>
+                                    </Button>
+                                 </children>
+                              </HBox>
+                           </bottom>
+                        </BorderPane>
+                     </children></AnchorPane>
+            </content>
+          </Tab>
+            <Tab fx:id="centrosTabPanel" text="Centros">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <BorderPane prefHeight="336.0" prefWidth="600.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                           <center>
+                              <TableView fx:id="centrosTable" prefHeight="307.0" prefWidth="573.0" BorderPane.alignment="CENTER">
+                                <columns>
+                                  <TableColumn fx:id="centrosIdColumn" prefWidth="75.0" text="ID" />
+                                  <TableColumn fx:id="centrosNombreColumn" prefWidth="231.0" text="Nombre" />
+                                    <TableColumn fx:id="centrosDireccionColumn" prefWidth="293.0" text="Dirección" />
+                                </columns>
+                              </TableView>
+                           </center>
+                        </BorderPane>
+                     </children>
+                  </AnchorPane>
+              </content>
+            </Tab>
+          <Tab fx:id="turnosTabPanel" text="Turnos">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <BorderPane prefHeight="335.0" prefWidth="600.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                           <center>
+                              <TableView fx:id="turnosTable" prefHeight="307.0" prefWidth="573.0" BorderPane.alignment="CENTER">
+                                <columns>
+                                  <TableColumn fx:id="turnosIdColumn" prefWidth="75.0" text="ID" />
+                                  <TableColumn fx:id="turnosAliasColumn" prefWidth="98.0" text="Alias" />
+                                    <TableColumn fx:id="turnosCentroColumn" prefWidth="331.0" text="Centro" />
+                                    <TableColumn fx:id="turnosHorasColumn" prefWidth="95.0" text="Horas" />
+                                </columns>
+                              </TableView>
+                           </center>
+                        </BorderPane>
+                     </children>
+                  </AnchorPane>
+            </content>
+          </Tab>
+            <Tab fx:id="areasTabPanel" text="Áreas">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <BorderPane prefHeight="335.0" prefWidth="600.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                           <center>
+                              <TableView fx:id="areaTable" prefHeight="305.0" prefWidth="571.0" BorderPane.alignment="CENTER">
+                                <columns>
+                                  <TableColumn fx:id="areasIdColumn" prefWidth="75.0" text="ID" />
+                                  <TableColumn fx:id="areasNombreColumn" prefWidth="289.0" text="Nombre" />
+                                    <TableColumn fx:id="areasCentroColumn" prefWidth="235.0" text="Centro" />
+                                </columns>
+                              </TableView>
+                           </center>
+                        </BorderPane>
+                     </children>
+                  </AnchorPane>
+              </content>
+            </Tab>
+        </tabs>
+      </TabPane>
+   </center>
+</BorderPane>
