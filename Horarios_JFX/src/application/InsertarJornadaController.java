@@ -96,7 +96,7 @@ public class InsertarJornadaController {
 		Parent root;
 		stage = (Stage)volverButton.getScene().getWindow();
 		try {
-			root = FXMLLoader.load(getClass().getResource("PantallaPrincipal.fxml"));
+			root = FXMLLoader.load(getClass().getResource("PrincipalWindow.fxml"));
 			Scene scene = new Scene(root);
 			stage.setScene(scene);
 			stage.show();

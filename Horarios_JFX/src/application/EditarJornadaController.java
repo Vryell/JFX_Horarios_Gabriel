@@ -49,7 +49,6 @@ public class EditarJornadaController {
 	
 	@FXML
 	private void initialize(){
-		System.out.println("inicializando el controlador");
 		usuario = new Usuario();
 		usuario.setClave("prueba1234");
 		usuario.setId_usuario(1);
@@ -65,7 +64,6 @@ public class EditarJornadaController {
 			alert.setContentText("No se han podido listar las jornadas.");
 			alert.showAndWait();
 		}
-		
 	}
 	
 	@FXML
@@ -99,7 +97,7 @@ public class EditarJornadaController {
 		Parent root;
 		stage = (Stage)volverButton.getScene().getWindow();
 		try {
-			root = FXMLLoader.load(getClass().getResource("PantallaPrincipal.fxml"));
+			root = FXMLLoader.load(getClass().getResource("PrincipalWindow.fxml"));
 			Scene scene = new Scene(root);
 			stage.setScene(scene);
 			stage.show();
