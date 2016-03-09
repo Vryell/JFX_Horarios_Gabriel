@@ -8,7 +8,6 @@ import javafx.beans.property.StringProperty;
 
 public class JornadaLaboral {
 	private StringProperty fecha = new SimpleStringProperty(this, "fecha");
-	private ObjectProperty<Usuario> id_usuario = new SimpleObjectProperty<Usuario>(this, "id_usuario");
 	private ObjectProperty<Centro> id_centro = new SimpleObjectProperty<Centro>(this, "id_centro");
 	private ObjectProperty<Turno> id_turno = new SimpleObjectProperty<Turno>(this, "id_turno");
 	private ObjectProperty<Area> id_area = new SimpleObjectProperty<Area>(this, "id_area");
@@ -39,22 +38,6 @@ public class JornadaLaboral {
 			return false;
 		return true;
 	}
-
-
-	public final ObjectProperty<Usuario> id_usuarioProperty() {
-		return this.id_usuario;
-	}
-	
-
-	public final dad.jfx.model.Usuario getId_usuario() {
-		return this.id_usuarioProperty().get();
-	}
-	
-
-	public final void setId_usuario(final dad.jfx.model.Usuario id_usuario) {
-		this.id_usuarioProperty().set(id_usuario);
-	}
-	
 
 	public final ObjectProperty<Centro> id_centroProperty() {
 		return this.id_centro;

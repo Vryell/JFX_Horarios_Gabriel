@@ -76,6 +76,4 @@ public class Area {
 	public String toString() {
 		return nombre_area.get();
 	}
-	
-		
 }

@@ -12,6 +12,7 @@ public class Turno {
 	private ObjectProperty<Centro> id_centro = new SimpleObjectProperty<Centro>(this, "id_centro");
 	private StringProperty alias = new SimpleStringProperty(this, "alias");
 	private IntegerProperty num_horas = new SimpleIntegerProperty(this, "num_horas");
+	private StringProperty descripcion = new SimpleStringProperty(this, "descripcion");
 	public final IntegerProperty id_turnoProperty() {
 		return this.id_turno;
 	}
@@ -89,6 +90,21 @@ public class Turno {
 	public String toString() {
 		return alias.get();
 	}
+
+	public final StringProperty descripcionProperty() {
+		return this.descripcion;
+	}
+	
+
+	public final java.lang.String getDescripcion() {
+		return this.descripcionProperty().get();
+	}
+	
+
+	public final void setDescripcion(final java.lang.String descripcion) {
+		this.descripcionProperty().set(descripcion);
+	}
+	
 	
 	
 }

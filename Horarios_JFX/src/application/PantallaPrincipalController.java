@@ -1,36 +1,33 @@
 package application;
 
 import java.io.IOException;
-import java.net.URL;
-import java.sql.Date;
+import java.sql.SQLException;
 
 import dad.jfx.model.Area;
 import dad.jfx.model.Centro;
 import dad.jfx.model.JornadaLaboral;
 import dad.jfx.model.Turno;
-import dad.jfx.model.Usuario;
 import dad.jfx.services.ServiceException;
 import dad.jfx.services.ServiceLocator;
-import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.stage.Modality;
-import javafx.stage.Stage;
-import javafx.stage.StageStyle;
+import javafx.scene.layout.BorderPane;
 
 public class PantallaPrincipalController {
+	private HorariosApp main;
+	@FXML 
+	BorderPane panelPrincipal;
+	
 	@FXML
 	private Button conectarButton;
 	
@@ -41,89 +38,78 @@ public class PantallaPrincipalController {
 	private Button editarJornadaButton;
 	
 	@FXML 
-	private TableView jornadasTable = new TableView();
+	private TableView<JornadaLaboral> jornadasTable;
 	@FXML
-	private TableColumn jornadasFechaColumn;
+	private TableColumn<?,?> jornadasFechaColumn;
 	@FXML
-	private TableColumn jornadasCentroColumn;
+	private TableColumn<?,?> jornadasCentroColumn;
 	@FXML
-	private TableColumn jornadasAreaColumn;
+	private TableColumn<?,?> jornadasAreaColumn;
 	@FXML
-	private TableColumn jornadasTurnoColumn;
+	private TableColumn<?,?> jornadasTurnoColumn;
 	
-	private ObservableList jornadasList;
+	private ObservableList<JornadaLaboral> jornadasList;
 	
 	@FXML 
-	private TableView centrosTable = new TableView();
+	private TableView<Centro> centrosTable;
 	@FXML
-	private TableColumn centrosIdColumn;
+	private TableColumn<?,?> centrosIdColumn;
 	@FXML
-	private TableColumn centrosNombreColumn;
+	private TableColumn<?,?> centrosNombreColumn;
 	@FXML
-	private TableColumn centrosDireccionColumn;
+	private TableColumn<?,?> centrosDireccionColumn;
 	
-	private ObservableList centrosList;
-	
-	@FXML
-	private TableView turnosTable = new TableView();
-	@FXML
-	private TableColumn turnosIdColumn;
-	@FXML
-	private TableColumn turnosAliasColumn;
-	@FXML
-	private TableColumn turnosCentroColumn;
-	@FXML
-	private TableColumn turnosHorasColumn;
-	
-	private ObservableList turnosList;
+	private ObservableList<Centro> centrosList;
 	
 	@FXML
-	private TableView areaTable = new TableView();
+	private TableView<Turno> turnosTable;
 	@FXML
-	private TableColumn areasIdColumn;
+	private TableColumn<?,?> turnosIdColumn;
 	@FXML
-	private TableColumn areasNombreColumn;
+	private TableColumn<?,?> turnosAliasColumn;
 	@FXML
-	private TableColumn areasCentroColumn;
+	private TableColumn<?,?> turnosCentroColumn;
+	@FXML
+	private TableColumn<?,?> turnosHorasColumn;
+	@FXML
+	private TableColumn<?, ?> turnosDescripcionColumn;
+	
+	private ObservableList<Turno> turnosList;
+	
+	@FXML
+	private TableView<Area> areaTable;
+	@FXML
+	private TableColumn<?,?> areasIdColumn;
+	@FXML
+	private TableColumn<?,?> areasNombreColumn;
+	@FXML
+	private TableColumn<?,?> areasCentroColumn;
 
-	private ObservableList areasList;
+	private ObservableList<Area> areasList;
 	
-	private Usuario usuario;
 	
 	@FXML
 	private void initialize(){
-		System.out.println("inicializando el controlador");
-		usuario = new Usuario();
-		usuario.setClave("prueba1234");
-		usuario.setId_usuario(1);
-		usuario.setCorreo_electronico("ggarciagarcia@gmail.com");
-		usuario.setNombre_usuario("Gabriel Garcia");
 		initTables();
+		jornadasTable.focusedProperty().addListener(new ChangeListener<Boolean>() {
+			@Override
+			public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+				if(newValue){
+					initTables();
+				}
+			}
+		});
 	}
 	
-	@FXML
-	private void onConectarButtonHandle(ActionEvent e){
-//		initTables();
-		Alert alert = new Alert(AlertType.INFORMATION);
-		alert.setTitle("Oops!");
-		alert.setHeaderText("Función no implementada.");
-		alert.setContentText("Lo sentimos, pero esta función no esta implementada actualmente.");
-		alert.showAndWait();
-	}
-	
-	@FXML
-	private void onDesconectarButtonHandle(ActionEvent e){
-		Alert alert = new Alert(AlertType.INFORMATION);
-		alert.setTitle("Oops!");
-		alert.setHeaderText("Función no implementada.");
-		alert.setContentText("Lo sentimos, pero esta función no esta implementada actualmente.");
-		alert.showAndWait();
-	}
-
-	private void initTables() {
+	public void initTables() {
 		try {
-			jornadasList = FXCollections.observableArrayList(ServiceLocator.getJornadaService().listarJornadas(usuario));
+			jornadasList = FXCollections.observableArrayList(ServiceLocator.getJornadaService().listarJornadas());
 		} catch (ServiceException e2) {
+			Alert alert = new Alert(AlertType.ERROR);
+			alert.setTitle("Error");
+			alert.setContentText("No se han podido listar las jornadas.");
+			alert.showAndWait();
+		} catch (SQLException e) {
 			Alert alert = new Alert(AlertType.ERROR);
 			alert.setTitle("Error");
 			alert.setContentText("No se han podido listar las jornadas.");
@@ -145,6 +131,11 @@ public class PantallaPrincipalController {
 			alert.setTitle("Error");
 			alert.setContentText("No se han podido listar los centros de trabajo.");
 			alert.showAndWait();
+		} catch (SQLException e) {
+			Alert alert = new Alert(AlertType.ERROR);
+			alert.setTitle("Error");
+			alert.setContentText("No se han podido listar los centros de trabajo.");
+			alert.showAndWait();
 		}
 		
 		jornadasTable.setEditable(false);
@@ -157,6 +148,11 @@ public class PantallaPrincipalController {
 		try {
 			areasList = FXCollections.observableArrayList(ServiceLocator.getAreaService().listarAreas());
 		} catch (ServiceException e1) {
+			Alert alert = new Alert(AlertType.ERROR);
+			alert.setTitle("Error");
+			alert.setContentText("No se han podido listar las áreas de trabajo.");
+			alert.showAndWait();
+		} catch (SQLException e) {
 			Alert alert = new Alert(AlertType.ERROR);
 			alert.setTitle("Error");
 			alert.setContentText("No se han podido listar las áreas de trabajo.");
@@ -177,6 +173,11 @@ public class PantallaPrincipalController {
 			alert.setTitle("Error");
 			alert.setContentText("No se han podido listar los turnos.");
 			alert.showAndWait();
+		} catch (SQLException e) {
+			Alert alert = new Alert(AlertType.ERROR);
+			alert.setTitle("Error");
+			alert.setContentText("No se han podido listar los turnos.");
+			alert.showAndWait();
 		}
 		
 		turnosTable.setEditable(false);
@@ -185,67 +186,77 @@ public class PantallaPrincipalController {
 		turnosAliasColumn.setCellValueFactory(new PropertyValueFactory("alias"));
 		turnosCentroColumn.setCellValueFactory(new PropertyValueFactory("id_centro"));
 		turnosHorasColumn.setCellValueFactory(new PropertyValueFactory("num_horas"));
+		turnosDescripcionColumn.setCellValueFactory(new PropertyValueFactory("descripcion"));
 		
 		turnosTable.setItems(turnosList);
-		
 	}
 	
 	@FXML
-	private void onAniadirJornadaButtonHandle(ActionEvent e){
-		Stage stage;
-		Parent root;
-		stage = (Stage)aniadirJornadaButton.getScene().getWindow();
-		try {
-			root = FXMLLoader.load(getClass().getResource("InsertarWindow.fxml"));
-			Scene scene = new Scene(root);
-			stage.setScene(scene);
-			stage.show();
-		} catch (IOException e1) {
-			e1.printStackTrace();
-		}
+	private void onAniadirJornadaButtonHandle(ActionEvent e) throws IOException{
+		main.showPantallaInsertar();
+		jornadasTable.requestFocus();
+//		Stage stage;
+//		Parent root;
+//		stage = (Stage)aniadirJornadaButton.getScene().getWindow();
+//		try {
+//			root = FXMLLoader.load(getClass().getResource("InsertarWindow.fxml"));
+//			Scene scene = new Scene(root);
+//			stage.setScene(scene);
+//			stage.setTitle("Insertar Jornada");
+//			stage.show();
+//		} catch (IOException e1) {
+//			e1.printStackTrace();
+//		}
 	}
 	
 	@FXML
 	private void onEliminarJornadaButtonHandle(ActionEvent e){
-//		boolean correcto = true;
 		try {
 			ServiceLocator.getJornadaService().eliminarJornadaLaboral(
 					((JornadaLaboral)jornadasTable.getSelectionModel().getSelectedItem()).getFecha());
-			
+			Alert alert = new Alert(AlertType.INFORMATION);
+			alert.setTitle("Operación realizada correctamente");
+			alert.setContentText("Jornada laboral eliminada correctamente.");
+			alert.showAndWait();
+			initTables();
 		} catch (ServiceException e1) {
-//			correcto = false;
 			Alert alert = new Alert(AlertType.ERROR);
 			alert.setTitle("Error");
 			alert.setContentText("No se ha podido eliminar la jornada laboral.");
 			alert.showAndWait();
 		} catch (NullPointerException e2) {
-//			correcto = false;
 			Alert alert = new Alert(AlertType.ERROR);
 			alert.setTitle("Error");
 			alert.setContentText("No ha seleccionado ninguna jornada laboral.");
 			alert.showAndWait();
 		}
-//		if(correcto){
-//			Alert alert = new Alert(AlertType.INFORMATION);
-//			alert.setTitle("Operación realizada correctamente");
-//			alert.setContentText("Jornada laboral eliminada correctamente.");
-//			alert.showAndWait();
-//			initTables();
-//		}
+		catch (SQLException e1) {
+			Alert alert = new Alert(AlertType.ERROR);
+			alert.setTitle("Error");
+			alert.setContentText("No se ha podido eliminar la jornada laboral.");
+			alert.showAndWait();
+		}
 	}
 	
 	@FXML
-	private void onEditarJornadaButtonHandle(ActionEvent e){
-		Stage stage;
-		Parent root;
-		stage = (Stage)editarJornadaButton.getScene().getWindow();
-		try {
-			root = FXMLLoader.load(getClass().getResource("EditarWindow.fxml"));
-			Scene scene = new Scene(root);
-			stage.setScene(scene);
-			stage.show();
-		} catch (IOException e1) {
-			e1.printStackTrace();
+	private void onEditarJornadaButtonHandle(ActionEvent e) throws IOException{
+		try{
+			main.showPantallaEditar((JornadaLaboral)jornadasTable.getSelectionModel().getSelectedItem());
+			jornadasTable.requestFocus();
+		} catch(NullPointerException ex) {
+			Alert alert = new Alert(AlertType.ERROR);
+			alert.setTitle("Error");
+			alert.setContentText("No ha seleccionado ninguna jornada laboral.");
+			alert.showAndWait();
 		}
+	}
+	
+	public void setMain(HorariosApp main){
+		this.main = main;
+	}
+	
+	@FXML
+	private void onRecargarButtonHandle(ActionEvent e){
+		initTables();
 	}
 }
